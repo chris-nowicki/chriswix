@@ -63,8 +63,8 @@ const questions = [
 
 // Data for the card
 const data = {
-	name: chalk.bold.hex(dracula.green)('       Chris "Wix" Nowicki'),
-	work: `${chalk.hex(dracula.purple)('Full-Stack WebDeveloper')}`,
+	name: chalk.bold.hex(dracula.purple)('       Chris "Wix" Nowicki'),
+	work: `${chalk.hex(dracula.green)('Full-Stack Web Developer')}`,
 	twitter:
 		chalk.gray('https://twitter.com/') + chalk.hex(dracula.orange)('iamwix'),
 	github: chalk.gray('https://github.com/') + chalk.green('chris-nowicki'),
