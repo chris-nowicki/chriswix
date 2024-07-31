@@ -140,4 +140,9 @@ const tip = [
 console.log(tip)
 
 // Ask the Inquirer questions.
-prompt(questions).then((answer) => answer.action())
+function showMenu() {
+	prompt(questions).then((answer) => answer.action())
+}
+
+// Initial call to show the menu
+showMenu()
