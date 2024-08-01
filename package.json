@@ -1,6 +1,6 @@
 {
 	"name": "chriswix",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"description": "My personal npm business card",
 	"main": "index.js",
 	"type": "module",

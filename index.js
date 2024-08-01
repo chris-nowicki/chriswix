@@ -7,8 +7,6 @@ import inquirer from 'inquirer'
 import clear from 'clear'
 import open from 'open'
 
-clear()
-
 // Dracula color theme
 const dracula = {
 	purple: '#BD93F9',
@@ -35,6 +33,7 @@ const questions = [
 				value: () => {
 					open('https://www.chrisnowicki.io/files/ChrisNowicki_Resume.pdf')
 					console.log('\nDone!\n')
+					showMenu()
 				},
 			},
 			{
@@ -42,6 +41,7 @@ const questions = [
 				value: () => {
 					open('mailto:chris@chrisnowicki.io')
 					console.log('\nDone, see you soon.\n')
+					showMenu()
 				},
 			},
 			{
@@ -49,6 +49,7 @@ const questions = [
 				value: () => {
 					open('https://cal.com/chriswix')
 					console.log('\nDone, see you soon.\n')
+					showMenu()
 				},
 			},
 			{
@@ -141,6 +142,7 @@ console.log(tip)
 
 // Ask the Inquirer questions.
 function showMenu() {
+	clear()
 	prompt(questions).then((answer) => answer.action())
 }
 
