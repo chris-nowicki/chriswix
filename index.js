@@ -128,21 +128,23 @@ const me = boxen(
 	}
 )
 
-// Print the card
-console.log(me)
-
 // Optional tip to help users use the links
 const tip = [
 	`Tip: Try ${chalk.cyanBright.bold('cmd/ctrl + click')} on the links above`,
 	'',
 ].join('\n')
 
-// Show the tip
-console.log(tip)
-
 // Ask the Inquirer questions.
 function showMenu() {
 	clear()
+
+	// Print the card
+	console.log(me)
+
+	// Show the tip
+	console.log(tip)
+
+	// Ask the Inquirer questions.
 	prompt(questions).then((answer) => answer.action())
 }
 
