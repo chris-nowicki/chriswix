@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-
 'use strict'
 import boxen from 'boxen'
 import chalk from 'chalk'
@@ -7,16 +6,13 @@ import inquirer from 'inquirer'
 import clear from 'clear'
 import open from 'open'
 
-// Dracula color theme
-const dracula = {
-	purple: '#BD93F9',
-	green: '#50FA7B',
-	orange: '#FFB86C',
-	red: '#FF5555',
-	cyan: '#8BE9FD',
-	foreground: '#F8F8F2',
-	background: '#282A36',
-	lineTitle: '#44475A',
+// Modern slate color theme inspired by shadcn/ui and Vercel
+const theme = {
+	slate900: '#020617', // Background
+	slate800: '#1e293b', // Border
+	slate400: '#94a3b8', // Muted text
+	slate200: '#e2e8f0', // Primary text
+	zinc300: '#d4d4d8', // Secondary text
 }
 
 const prompt = inquirer.createPromptModule()
@@ -26,36 +22,20 @@ const questions = [
 	{
 		type: 'list',
 		name: 'action',
-		message: 'What you want to do?',
+		message: 'What would you like to do?',
 		choices: [
 			{
-				name: `Download my ${chalk.hex(dracula.orange).bold('resume')}?`,
+				name: `Send me an ${chalk.hex(theme.slate400).bold('email')}`,
 				value: () => {
-					open('https://www.chrisnowicki.io/files/ChrisNowicki_Resume.pdf')
-					console.log('\nDone!\n')
+					open('mailto:chris@chrisnowicki.dev')
+					console.log('\nOpening email client...\n')
 					showMenu()
 				},
 			},
 			{
-				name: `Send me an ${chalk.hex(dracula.green).bold('email')}?`,
+				name: 'Exit',
 				value: () => {
-					open('mailto:chris@chrisnowicki.io')
-					console.log('\nDone, see you soon.\n')
-					showMenu()
-				},
-			},
-			{
-				name: `Schedule a ${chalk.hex(dracula.purple).bold('call')}?`,
-				value: () => {
-					open('https://cal.com/chriswix')
-					console.log('\nDone, see you soon.\n')
-					showMenu()
-				},
-			},
-			{
-				name: 'Just quit.',
-				value: () => {
-					console.log('Good Bye!\n')
+					console.log('Goodbye!\n')
 				},
 			},
 		],
@@ -64,89 +44,71 @@ const questions = [
 
 // Data for the card
 const data = {
-	name: chalk.bold.hex(dracula.purple)('       Chris "Wix" Nowicki'),
-	work: `${chalk.hex(dracula.green)('Full-Stack Web Developer')}`,
-	twitter:
-		chalk.gray('https://twitter.com/') + chalk.hex(dracula.orange)('iamwix'),
-	github: chalk.gray('https://github.com/') + chalk.green('chris-nowicki'),
-	linkedin:
-		chalk.gray('https://linkedin.com/in/') +
-		chalk.hex(dracula.purple)('chris-nowicki'),
-	web: chalk.hex(dracula.cyan)('https://chrisnowicki.io'),
+	name: chalk.bold.hex(theme.slate200)(' Chris "Wix" Nowicki'),
+	title: `${chalk.hex(theme.slate400)(' Software Engineering Lead')}`,
+	work: `${chalk.hex(theme.slate400)('https://thisdot.co')}`,
+	twitter: chalk.hex(theme.slate400)('https://twitter.com/iamwix'),
+	github: chalk.hex(theme.slate400)('https://github.com/chris-nowicki'),
+	linkedin: chalk.hex(theme.slate400)('https://linkedin.com/in/chris-nowicki'),
+	web: chalk.hex(theme.slate400)('https://chrisnowicki.dev'),
 	npx:
-		chalk.hex(dracula.red)('npx') +
+		chalk.hex(theme.slate400)('npx') +
 		' ' +
-		chalk.hex(dracula.foreground)('chriswix'),
+		chalk.hex(theme.slate200)('chriswix'),
 
-	labelWork: chalk.hex(dracula.foreground).bold('       Work:'),
-	labelTwitter: chalk.hex(dracula.foreground).bold('    Twitter:'),
-	labelGitHub: chalk.hex(dracula.foreground).bold('     GitHub:'),
-	labelLinkedIn: chalk.hex(dracula.foreground).bold('   LinkedIn:'),
-	labelWeb: chalk.hex(dracula.foreground).bold('        Web:'),
-	labelCard: chalk.hex(dracula.foreground).bold('       Card:'),
+	// Labels
+	labelWork: chalk.hex(theme.zinc300).bold(' Work:'),
+	labelTwitter: chalk.hex(theme.zinc300).bold(' Twitter:'),
+	labelGitHub: chalk.hex(theme.zinc300).bold(' GitHub:'),
+	labelLinkedIn: chalk.hex(theme.zinc300).bold(' LinkedIn:'),
+	labelWeb: chalk.hex(theme.zinc300).bold(' Web:'),
+	labelCard: chalk.hex(theme.zinc300).bold(' Card:'),
 }
 
 // Build the card
 const me = boxen(
 	[
 		`${data.name}`,
+		`${data.title}`,
 		``,
-		`${data.labelWork}  ${data.work}`,
-		`${data.labelTwitter}  ${data.twitter}`,
-		`${data.labelGitHub}  ${data.github}`,
-		`${data.labelLinkedIn}  ${data.linkedin}`,
-		`${data.labelWeb}  ${data.web}`,
-		``,
-		`${data.labelCard}  ${data.npx}`,
-		``,
-		`${chalk.italic(
-			'Full-Stack Software Developer | Next.js | React | TypeScript |'
-		)}`,
-		`${chalk.italic('Express.js | MySQL | MongoDB')}`,
+		`${chalk
+			.hex(theme.slate400)
+			.italic(
+				' Tech nerd 🤓. Addicted to coffee, and always on the search for a good 🍔!'
+			)}`,
 		'',
-		`${chalk.italic(
-			'Tech nerd 🤓.  Addicted to coffee, and always on the search for a good 🍔 😋!'
-		)}`,
-		'',
-		`${
-			chalk
-				.hex(dracula.purple)
-				.italic.bold('Looking for a new role and open to work ') +
-			chalk.hex(dracula.green)('remote') +
-			chalk.hex(dracula.purple)(' / ') +
-			chalk.hex(dracula.green)('hybrid') +
-			chalk.hex(dracula.purple)(' / ') +
-			chalk.hex(dracula.green)('onsite')
-		}`,
+		`${data.labelWork} ${data.work}`,
+		`${data.labelTwitter} ${data.twitter}`,
+		`${data.labelGitHub} ${data.github}`,
+		`${data.labelLinkedIn} ${data.linkedin}`,
+		`${data.labelWeb} ${data.web}`,
+		``,
+		`${data.labelCard} ${data.npx}`,
 	].join('\n'),
 	{
-		margin: 1,
 		float: 'center',
+		margin: 1,
 		padding: 1,
-		borderStyle: 'single',
-		borderColor: dracula.purple,
+		borderStyle: 'none',
+		backgroundColor: theme.slate900,
 	}
 )
 
-// Optional tip to help users use the links
+// Optional tip
 const tip = [
-	`Tip: Try ${chalk.cyanBright.bold('cmd/ctrl + click')} on the links above`,
+	`Tip: Try ${chalk
+		.hex(theme.slate400)
+		.bold('cmd/ctrl + click')} on the links above`,
 	'',
 ].join('\n')
 
-// Ask the Inquirer questions.
+// Show menu function
 function showMenu() {
 	clear()
-
-	// Print the card
 	console.log(me)
-
-	// Show the tip
 	console.log(tip)
-
-	// Ask the Inquirer questions.
 	prompt(questions).then((answer) => answer.action())
 }
 
-// Initial call to show the menu
+// Initial call
 showMenu()
