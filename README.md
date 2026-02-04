@@ -6,8 +6,6 @@ A business card, but make it `npx`.
 npx chriswix
 ```
 
-![Screen Shot](screenshot.png)
-
 ## Why?
 
 Because LinkedIn is boring and paper cards end up in the trash. This one lives in npm where it belongs.
