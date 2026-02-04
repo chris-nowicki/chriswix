@@ -8,16 +8,77 @@ import open from 'open'
 
 // Modern slate color theme inspired by shadcn/ui and Vercel
 const theme = {
-	slate900: '#020617', // Background
-	slate800: '#1e293b', // Border
-	slate400: '#94a3b8', // Muted text
-	slate200: '#e2e8f0', // Primary text
-	zinc300: '#d4d4d8', // Secondary text
+	slate900: '#020617',
+	slate800: '#1e293b',
+	slate400: '#94a3b8',
+	slate200: '#e2e8f0',
+	zinc300: '#d4d4d8',
 }
 
+// Content data (no styling)
+const content = {
+	name: 'Chris "Wix" Nowicki',
+	title: 'Developer Experience Engineer',
+	tagline: 'Tech nerd 🤓. Addicted to coffee, and always on the search for a good 🍔!',
+	links: {
+		work: 'https://commerce.com',
+		twitter: 'https://twitter.com/iamwix',
+		github: 'https://github.com/chris-nowicki',
+		linkedin: 'https://linkedin.com/in/chris-nowicki',
+		web: 'https://chrisnowicki.dev',
+		email: 'chris@chrisnowicki.dev',
+	},
+	npxCommand: 'chriswix',
+}
+
+// Styling utilities
+const style = {
+	primary: (text) => chalk.bold.hex(theme.slate200)(text),
+	muted: (text) => chalk.hex(theme.slate400)(text),
+	label: (text) => chalk.hex(theme.zinc300).bold(text),
+	italic: (text) => chalk.hex(theme.slate400).italic(text),
+}
+
+const row = (label, value) => `${style.label(` ${label}:`)} ${style.muted(value)}`
+
+// Card content
+const cardContent = [
+	style.primary(` ${content.name}`),
+	style.muted(` ${content.title}`),
+	'',
+	style.italic(` ${content.tagline}`),
+	'',
+	row('Work', content.links.work),
+	row('Twitter', content.links.twitter),
+	row('GitHub', content.links.github),
+	row('LinkedIn', content.links.linkedin),
+	row('Web', content.links.web),
+	'',
+	`${style.label(' Card:')} ${style.muted('npx')} ${style.primary(content.npxCommand)}`,
+].join('\n')
+
+const card = boxen(cardContent, {
+	float: 'center',
+	margin: 1,
+	padding: 1,
+	borderStyle: 'none',
+	backgroundColor: theme.slate900,
+})
+
+const tip = [
+	`Tip: Try ${style.label('cmd/ctrl + click')} on the links above`,
+	'',
+].join('\n')
+
+// Menu helpers
 const prompt = inquirer.createPromptModule()
 
-// Questions after the card
+const openLink = (url, label) => () => {
+	open(url)
+	console.log(`\n  Opening ${label}...\n`)
+	showMenu()
+}
+
 const questions = [
 	{
 		type: 'list',
@@ -25,90 +86,39 @@ const questions = [
 		message: 'What would you like to do?',
 		choices: [
 			{
-				name: `Send me an ${chalk.hex(theme.slate400).bold('email')}`,
-				value: () => {
-					open('mailto:chris@chrisnowicki.dev')
-					console.log('\nOpening email client...\n')
-					showMenu()
-				},
+				name: `Send me an ${style.label('email')}`,
+				value: openLink(`mailto:${content.links.email}`, 'email client'),
+			},
+			{
+				name: `Visit my ${style.label('website')}`,
+				value: openLink(content.links.web, 'website'),
+			},
+			{
+				name: `Check out my ${style.label('GitHub')}`,
+				value: openLink(content.links.github, 'GitHub'),
+			},
+			{
+				name: `Connect on ${style.label('LinkedIn')}`,
+				value: openLink(content.links.linkedin, 'LinkedIn'),
+			},
+			{
+				name: `Follow on ${style.label('Twitter')}`,
+				value: openLink(content.links.twitter, 'Twitter'),
 			},
 			{
 				name: 'Exit',
-				value: () => {
-					console.log('Goodbye!\n')
-				},
+				value: () => console.log('Goodbye!\n'),
 			},
 		],
 	},
 ]
 
-// Data for the card
-const data = {
-	name: chalk.bold.hex(theme.slate200)(' Chris "Wix" Nowicki'),
-	title: `${chalk.hex(theme.slate400)(' Software Engineering Lead')}`,
-	work: `${chalk.hex(theme.slate400)('https://thisdot.co')}`,
-	twitter: chalk.hex(theme.slate400)('https://twitter.com/iamwix'),
-	github: chalk.hex(theme.slate400)('https://github.com/chris-nowicki'),
-	linkedin: chalk.hex(theme.slate400)('https://linkedin.com/in/chris-nowicki'),
-	web: chalk.hex(theme.slate400)('https://chrisnowicki.dev'),
-	npx:
-		chalk.hex(theme.slate400)('npx') +
-		' ' +
-		chalk.hex(theme.slate200)('chriswix'),
-
-	// Labels
-	labelWork: chalk.hex(theme.zinc300).bold(' Work:'),
-	labelTwitter: chalk.hex(theme.zinc300).bold(' Twitter:'),
-	labelGitHub: chalk.hex(theme.zinc300).bold(' GitHub:'),
-	labelLinkedIn: chalk.hex(theme.zinc300).bold(' LinkedIn:'),
-	labelWeb: chalk.hex(theme.zinc300).bold(' Web:'),
-	labelCard: chalk.hex(theme.zinc300).bold(' Card:'),
-}
-
-// Build the card
-const me = boxen(
-	[
-		`${data.name}`,
-		`${data.title}`,
-		``,
-		`${chalk
-			.hex(theme.slate400)
-			.italic(
-				' Tech nerd 🤓. Addicted to coffee, and always on the search for a good 🍔!'
-			)}`,
-		'',
-		`${data.labelWork} ${data.work}`,
-		`${data.labelTwitter} ${data.twitter}`,
-		`${data.labelGitHub} ${data.github}`,
-		`${data.labelLinkedIn} ${data.linkedin}`,
-		`${data.labelWeb} ${data.web}`,
-		``,
-		`${data.labelCard} ${data.npx}`,
-	].join('\n'),
-	{
-		float: 'center',
-		margin: 1,
-		padding: 1,
-		borderStyle: 'none',
-		backgroundColor: theme.slate900,
-	}
-)
-
-// Optional tip
-const tip = [
-	`Tip: Try ${chalk
-		.hex(theme.slate400)
-		.bold('cmd/ctrl + click')} on the links above`,
-	'',
-].join('\n')
-
-// Show menu function
+// Main
 function showMenu() {
 	clear()
-	console.log(me)
+	console.log(card)
 	console.log(tip)
 	prompt(questions).then((answer) => answer.action())
 }
 
-// Initial call
 showMenu()
